@@ -1,0 +1,13 @@
+Dataset
+To better follow the energy consumption, the government wants energy suppliers to install smart meters in every home in England, Wales and Scotland. There are more than 26 million homes for the energy suppliers to get to, with the goal of every home having a smart meter by 2020.
+
+This roll out of meter is lead by the European Union who asked all member governments to look at smart meters as part of measures to upgrade our energy supply and tackle climate change. After an initial study, the British government decided to adopt smart meters as part of their plan to update our ageing energy system.
+
+In this dataset, you will find a [refactorised version of the data][1] from the London data store, that contains the energy consumption readings for a sample of 5,567 London Households that took part in the UK Power Networks led Low Carbon London project between November 2011 and February 2014. The data from the smart meters seems associated only to the electrical consumption.
+
+https://www.kaggle.com/jeanmidev/smart-meters-in-london
+https://data.london.gov.uk/dataset/smartmeter-energy-use-data-in-london-households
+
+License
+Open Data Commons Open Database License (ODbL) v1.0
+https://opendatacommons.org/licenses/odbl/1-0/
