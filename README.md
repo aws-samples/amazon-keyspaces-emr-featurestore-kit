@@ -4,7 +4,7 @@ To train Machine Learning models we need historical data. During this phase the 
 This repo accompaines a blogpost which discusses how to build a Feature Store.[link]. 
 
 ## Setup the Dataset 
-This repo contains the dataset we need to place in an S3 bucket. We will use Smart meters in London datase, you can find it under Data/daily_dataset.csv. This dataset consists of smart energy meter readings which were rolled out to homes in the UK. The file daily_dataset.csv contains information like the number of measures, minimum, maximum, mean, median, sum and std for each household on a daily basis. To create an S3 bucket (if you don’t already have one) and upload the data file follow these steps:
+This repo contains the dataset we need to place in an S3 bucket. We will use Smart meters in London dataset, you can find it under Data/daily_dataset.csv. This dataset consists of smart energy meter readings which were rolled out to homes in the UK. The file daily_dataset.csv contains information like the number of measures, minimum, maximum, mean, median, sum and std for each household on a daily basis. To create an S3 bucket (if you don’t already have one) and upload the data file follow these steps:
 1.	Clone the project repository locally by running the shell command
 git clone [repo url pending]
 2.	Log into the console and navigate to S3

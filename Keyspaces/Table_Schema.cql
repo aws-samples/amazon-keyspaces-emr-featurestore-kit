@@ -1,4 +1,4 @@
-CREATE TABLE "feature_store"."uk_energy_data_features"(
+CREATE TABLE "feature_store"."energy_data_features"(
     "id" text,
     "day_date" date,
     "energy_median" double,

@@ -10,12 +10,14 @@ handler = logging.StreamHandler()
 handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
 log.addHandler(handler)
 
+import io
 import os
 import boto3
 import glob
 import json
 import time
 import timeit
+import pandas as pd
 from multiprocessing import Pool
 from cassandra.cluster import Cluster
 from cassandra.io.libevreactor import LibevConnection
@@ -28,7 +30,7 @@ global simulation_name
 global KEYSPACE
 global cluster
 global session
-global json_ids
+global household_id
 global num_processes
 global requests
 
@@ -39,18 +41,18 @@ requests = int(os.environ['requests'])
 KEYSPACE = "my_keyspace"
 simulation_name = os.environ['simulation_name']
 keyspaces_username = str(os.environ['keyspaces_username'])
-keyspaces_password = str(os.environ['keyspaces_username'])
-s3_bucket_name = str(os.environ['keyspaces_username'])
+keyspaces_password = str(os.environ['keyspaces_password'])
+s3_bucket_name = str(os.environ['s3_bucket_name'])
 
 
 
 # ---------
 # Load IDs
 # ---------
-s3 = boto3.resource('s3')
-obj = s3.Object(s3_bucket_name, "kaggle/ids.txt")
-file_content = obj.get()['Body'].read().decode('utf-8')
-json_ids = json.loads(file_content)
+s3 = boto3.client('s3')
+obj = s3.get_object(Bucket='YOUR S3 BUCKET HERE', Key='Dataset/daily_dataset.csv')
+df = pd.read_csv(io.BytesIO(obj['Body'].read()))
+household_id = df["household_id"].unique().tolist()
 
 
 # ----------------------------
@@ -64,7 +66,7 @@ def start_process(procnum):
         list_times = []
         ssl_context = SSLContext(PROTOCOL_TLSv1_2 )
         # Place your certificate file (sf-class2-root.crt) in this folder for testing the simulation. For your own use cases
-        # which might be sensitive and production environments consider changing to alternative and more secure solutions.
+        # which might be sensitive and production environments should consider changing to alternative and more secure solutions.
         ssl_context.load_verify_locations(os.getcwd() + '/sf-class2-root.crt')
         ssl_context.verify_mode = CERT_REQUIRED
         #TODO Add your Keyspaces username and password
@@ -79,10 +81,10 @@ def start_process(procnum):
         list_ids = []
         for i in range(requests):
             list_ids.append(random.randint(0,5565))
-        global json_ids
+        global household_id
         for i in range(len(list_ids)):
             # ToDO make the id between 1-150
-            query= "SELECT * FROM my_keyspace.uk_energy_data_features WHERE id='" + str(json_ids[list_ids[i]][0]) + "';"
+            query= "SELECT * FROM my_keyspace.energy_data_features WHERE id='" + str(household_id[list_ids[i]][0]) + "';"
             try:
                 t_now = time.time()
                 rows = session.execute(query)
