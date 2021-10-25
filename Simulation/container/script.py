@@ -50,7 +50,7 @@ s3_bucket_name = str(os.environ['s3_bucket_name'])
 # Load IDs
 # ---------
 s3 = boto3.client('s3')
-obj = s3.get_object(Bucket='YOUR S3 BUCKET HERE', Key='Dataset/daily_dataset.csv')
+obj = s3.get_object(Bucket=s3_bucket_name, Key='Dataset/daily_dataset.csv')
 df = pd.read_csv(io.BytesIO(obj['Body'].read()))
 household_id = df["household_id"].unique().tolist()
 
