@@ -38,7 +38,7 @@ global requests
 workerNo = int(os.environ['workerNo'])
 num_processes = int(os.environ['num_processes'])
 requests = int(os.environ['requests'])
-KEYSPACE = "my_keyspace"
+KEYSPACE = "feature_store"
 simulation_name = os.environ['simulation_name']
 keyspaces_username = str(os.environ['keyspaces_username'])
 keyspaces_password = str(os.environ['keyspaces_password'])
@@ -67,7 +67,8 @@ def start_process(procnum):
         ssl_context = SSLContext(PROTOCOL_TLSv1_2 )
         # Place your certificate file (sf-class2-root.crt) in this folder for testing the simulation. For your own use cases
         # which might be sensitive and production environments should consider changing to alternative and more secure solutions.
-        ssl_context.load_verify_locations(os.getcwd() + '/sf-class2-root.crt')
+        #ssl_context.load_verify_locations(os.getcwd() + '/sf-class2-root.crt')
+        ssl_context.load_verify_locations('/usr/local/simulation_tutorial/sf-class2-root.crt')
         ssl_context.verify_mode = CERT_REQUIRED
         #TODO Add your Keyspaces username and password
         auth_provider = PlainTextAuthProvider(username=keyspaces_username, password=keyspaces_password)
@@ -76,7 +77,7 @@ def start_process(procnum):
                           ssl_context=ssl_context,
                           auth_provider=auth_provider, port=9142)
         global session
-        session = cluster.connect(keyspace='my_keyspace',
+        session = cluster.connect(keyspace=KEYSPACE,
                                   wait_for_all_pools=True)
         list_ids = []
         for i in range(requests):
@@ -84,7 +85,7 @@ def start_process(procnum):
         global household_id
         for i in range(len(list_ids)):
             # ToDO make the id between 1-150
-            query= "SELECT * FROM my_keyspace.energy_data_features WHERE id='" + str(household_id[list_ids[i]][0]) + "';"
+            query= "SELECT * FROM feature_store.energy_data_features WHERE id='" + str(household_id[list_ids[i]][0]) + "';"
             try:
                 t_now = time.time()
                 rows = session.execute(query)
@@ -99,6 +100,7 @@ def start_process(procnum):
         file_object.close()
         s3 = boto3.resource('s3')
         s3.Bucket(s3_bucket_name).upload_file(os.getcwd() + "/simdata/worker_" + str(workerNo) + "_thread_" + str(procnum) +".txt", "simulation_results/" + str(simulation_name) + "/worker_" + str(workerNo) + "_thread_" + str(procnum) +".txt")
+        print("Thread complete")
     except:
         print("Thread Failed")
         raise Exception('Thread Failed') 
