@@ -73,7 +73,7 @@ def start_process(procnum):
         #TODO Add your Keyspaces username and password
         auth_provider = PlainTextAuthProvider(username=keyspaces_username, password=keyspaces_password)
         global cluster
-        cluster = Cluster(['cassandra.eu-west-1.amazonaws.com'],
+        cluster = Cluster(['cassandra.YOUR-REGION-HERE.amazonaws.com'],
                           ssl_context=ssl_context,
                           auth_provider=auth_provider, port=9142)
         global session
