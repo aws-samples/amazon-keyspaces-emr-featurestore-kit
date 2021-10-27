@@ -12,7 +12,11 @@ ENV PYTHONDONTWRITEBYTECODE=TRUE
 
 RUN apt-get -y update && apt-get -y install gcc python-dev
 
+RUN apt-get -y install curl
+
 RUN pip3 install --no-cache-dir -r /usr/local/simulation_tutorial/requirements.txt
+
+RUN curl https://certs.secureserver.net/repository/sf-class2-root.crt -o /usr/local/simulation_tutorial/sf-class2-root.crt
 
 
 
