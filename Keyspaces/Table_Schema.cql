@@ -23,7 +23,7 @@ CREATE TABLE "feature_store"."energy_data_features"(
     "energy_stddev_3months" double,
     "energy_stddev_6months" double,
     "energy_stddev_1yr" double,
-    PRIMARY KEY("id"))
+    PRIMARY KEY("id","day_date")))
 WITH CUSTOM_PROPERTIES = {
     'capacity_mode':{'throughput_mode':'PAY_PER_REQUEST'}
 } AND CLUSTERING ORDER BY ("day_date" DESC);
