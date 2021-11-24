@@ -1,6 +1,4 @@
 #!/bin/bash
-# install cassandra python driver
-#sudo pip3 install --no-cache-dir -U cassandra-sigv4==4.0.2
 
 # Certificate needed for connecting to Keyspaces
 mkdir -p /home/hadoop/.certs
@@ -15,6 +13,4 @@ printf "%s\n%s" $PASS $PASS | keytool \
   -noprompt
 
 # copy the Cassandra Connector config
-#mkdir -p /home/hadoop/.keyspaces
-#aws s3 cp s3://{YOUR S3 BUCKET HERE}/EMR/cassandra_connector.conf /home/hadoop/.keyspaces/cassandra_connector.conf
 aws s3 cp s3://{YOUR S3 BUCKET HERE}/EMR/app.config /home/hadoop/app.config
