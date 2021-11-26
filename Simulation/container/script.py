@@ -75,7 +75,7 @@ def start_process(procnum):
         global cluster
         cluster = Cluster(['cassandra.YOUR-REGION-HERE.amazonaws.com'],
                           ssl_context=ssl_context,
-                          auth_provider=auth_provider, port=9142)
+                          auth_provider=auth_provider, port=9142, protocol_version=4) 
         global session
         session = cluster.connect(keyspace=KEYSPACE,
                                   wait_for_all_pools=True)
