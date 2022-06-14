@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Certificate needed for connecting to Keyspaces
+# Certificate needed for connecting to Keyspaces. This Starfield certificate provides additional backwards compatibility for clients using older certificate authorities.
 mkdir -p /home/hadoop/.certs
 curl https://certs.secureserver.net/repository/sf-class2-root.crt -o /home/hadoop/.certs/sf-class2-root.crt
 
